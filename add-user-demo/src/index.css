@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height:100%;
+  font-family: sans-serif;
+ /* background: rgb(177, 176, 242); */
+  background: linear-gradient(rgb(69, 99, 246), rgb(248, 111, 57));
+}
+
+body {
+  margin: 0;
+}
