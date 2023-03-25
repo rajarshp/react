@@ -1,36 +1,33 @@
+import { useEffect, useState } from "react";
 import Card from "../UI/Card";
 import styles from "./css/AvailableMeals.module.css";
 import MealItem from "./MealItems/MealItem";
 
-const DUMMY_MEALS = [
-  {
-    id: "m1",
-    name: "Sushi",
-    description: "Finest fish and veggies",
-    price: 22.99,
-  },
-  {
-    id: "m2",
-    name: "Schnitzel",
-    description: "A german specialty!",
-    price: 16.5,
-  },
-  {
-    id: "m3",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-    price: 12.99,
-  },
-  {
-    id: "m4",
-    name: "Green Bowl",
-    description: "Healthy...and green...",
-    price: 18.99,
-  },
-];
-
 const AvailableMeals = () => {
-  const mealsList = DUMMY_MEALS.map((meal) => {
+  // we need state in order re-render the page once the data is fetched from db
+  const [meals, setMeals] = useState([]);
+  useEffect(() => {
+    const fetchMenu = async () => {
+      const response = await fetch("http://localhost:5555/food/items/menu");
+      const responseData = await response.json(); // this will be an Object
+      // we have to conver this response object to array
+
+      const loaddedData = [];
+
+      for (const key in responseData) {
+        loaddedData.push({
+          id: key,
+          name: responseData[key].name,
+          price: responseData[key].price,
+          description: responseData[key].description,
+        });
+      }
+      setMeals(loaddedData);
+    };
+
+    fetchMenu();
+  }, []);
+  const mealsList = meals.map((meal) => {
     return (
       <MealItem
         key={meal.id}
